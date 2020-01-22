@@ -1,11 +1,9 @@
 FROM php:7.4-fpm
 
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-
 RUN apt-get update -q \
- && apt-get -qq -y install curl zip unzip git
+ && apt-get -qq -y install curl zip unzip git libicu-dev libzip-dev libonig-dev
 
-RUN install-php-extensions bcmath exif intl memcached pdo_mysql zip mbstring
+RUN docker-php-ext-install bcmath exif json intl pdo_mysql zip mbstring
 
 RUN cd /tmp \
  && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
